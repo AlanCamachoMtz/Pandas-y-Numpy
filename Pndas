@@ -1,0 +1,333 @@
+# ============================================================
+# APRENDIENDO PANDAS DESDE CERO
+# Ejemplo: análisis de ventas de una tienda
+# ============================================================
+
+# ------------------------------------------------------------
+# 1. IMPORTAR PANDAS
+# ------------------------------------------------------------
+
+# "pd" es el nombre corto que normalmente usamos para Pandas.
+import pandas as pd
+
+
+# ------------------------------------------------------------
+# 2. CREAR UN DATAFRAME
+# ------------------------------------------------------------
+
+# Un DataFrame es como una tabla de Excel:
+#
+#       Producto       Precio  Cantidad
+#       Laptop         15000       2
+#       Mouse            500       5
+#
+# Podemos crear uno utilizando un diccionario.
+
+datos = {
+    "Producto": ["Laptop", "Mouse", "Teclado", "Monitor", "Audífonos"],
+    "Categoria": ["Computación", "Accesorios", "Accesorios", "Computación", "Accesorios"],
+    "Precio": [15000, 500, 800, 4500, 1200],
+    "Cantidad": [2, 5, 3, 2, 4]
+}
+
+df = pd.DataFrame(datos)
+
+print("TABLA COMPLETA:")
+print(df)
+
+
+# ------------------------------------------------------------
+# 3. VER LAS PRIMERAS FILAS
+# ------------------------------------------------------------
+
+# head() muestra las primeras filas de la tabla.
+# Por defecto muestra 5.
+
+print("\nPRIMERAS FILAS:")
+print(df.head())
+
+
+# También podemos indicarle cuántas queremos ver.
+
+print("\nPRIMERAS 3 FILAS:")
+print(df.head(3))
+
+
+# ------------------------------------------------------------
+# 4. VER LAS ÚLTIMAS FILAS
+# ------------------------------------------------------------
+
+# tail() hace lo contrario de head().
+# Muestra las últimas filas.
+
+print("\nÚLTIMAS FILAS:")
+print(df.tail(2))
+
+
+# ------------------------------------------------------------
+# 5. VER LAS COLUMNAS
+# ------------------------------------------------------------
+
+# columns nos dice qué columnas tiene nuestro DataFrame.
+
+print("\nCOLUMNAS:")
+print(df.columns)
+
+
+# ------------------------------------------------------------
+# 6. SABER CUÁNTAS FILAS Y COLUMNAS HAY
+# ------------------------------------------------------------
+
+# shape devuelve:
+#
+# (cantidad_de_filas, cantidad_de_columnas)
+
+print("\nTAMAÑO DEL DATAFRAME:")
+print(df.shape)
+
+
+# ------------------------------------------------------------
+# 7. SELECCIONAR UNA COLUMNA
+# ------------------------------------------------------------
+
+# Podemos seleccionar una columna utilizando su nombre.
+
+print("\nSOLO LOS PRODUCTOS:")
+print(df["Producto"])
+
+
+# ------------------------------------------------------------
+# 8. SELECCIONAR VARIAS COLUMNAS
+# ------------------------------------------------------------
+
+# Para seleccionar varias columnas usamos una lista.
+
+print("\nPRODUCTO Y PRECIO:")
+print(df[["Producto", "Precio"]])
+
+
+# ------------------------------------------------------------
+# 9. CREAR UNA NUEVA COLUMNA
+# ------------------------------------------------------------
+
+# Supongamos que queremos saber cuánto dinero genera
+# cada producto.
+#
+# Fórmula:
+# Precio × Cantidad
+
+df["Total"] = df["Precio"] * df["Cantidad"]
+
+print("\nTABLA CON TOTAL:")
+print(df)
+
+
+# ------------------------------------------------------------
+# 10. FILTRAR INFORMACIÓN
+# ------------------------------------------------------------
+
+# Supongamos que queremos solamente los productos
+# cuyo precio sea mayor a $1,000.
+
+productos_caros = df[df["Precio"] > 1000]
+
+print("\nPRODUCTOS MAYORES A $1,000:")
+print(productos_caros)
+
+
+# ------------------------------------------------------------
+# 11. OTRO FILTRO
+# ------------------------------------------------------------
+
+# Productos de la categoría "Accesorios".
+
+accesorios = df[df["Categoria"] == "Accesorios"]
+
+print("\nACCESORIOS:")
+print(accesorios)
+
+
+# ------------------------------------------------------------
+# 12. ORDENAR DATOS
+# ------------------------------------------------------------
+
+# sort_values() sirve para ordenar.
+#
+# ascending=True  -> menor a mayor
+# ascending=False -> mayor a menor
+
+df_ordenado = df.sort_values("Precio", ascending=False)
+
+print("\nPRODUCTOS DEL MÁS CARO AL MÁS BARATO:")
+print(df_ordenado)
+
+
+# ------------------------------------------------------------
+# 13. CALCULAR PROMEDIO
+# ------------------------------------------------------------
+
+# mean() calcula el promedio.
+
+promedio_precio = df["Precio"].mean()
+
+print("\nPRECIO PROMEDIO:")
+print(promedio_precio)
+
+
+# ------------------------------------------------------------
+# 14. SUMA
+# ------------------------------------------------------------
+
+# sum() suma todos los valores de una columna.
+
+ventas_totales = df["Total"].sum()
+
+print("\nVENTAS TOTALES:")
+print(ventas_totales)
+
+
+# ------------------------------------------------------------
+# 15. VALOR MÁXIMO
+# ------------------------------------------------------------
+
+# max() encuentra el valor más alto.
+
+precio_maximo = df["Precio"].max()
+
+print("\nPRECIO MÁS ALTO:")
+print(precio_maximo)
+
+
+# ------------------------------------------------------------
+# 16. VALOR MÍNIMO
+# ------------------------------------------------------------
+
+# min() encuentra el valor más pequeño.
+
+precio_minimo = df["Precio"].min()
+
+print("\nPRECIO MÁS BAJO:")
+print(precio_minimo)
+
+
+# ------------------------------------------------------------
+# 17. INFORMACIÓN GENERAL
+# ------------------------------------------------------------
+
+# info() nos muestra información importante:
+#
+# - cantidad de filas
+# - nombres de columnas
+# - tipos de datos
+# - valores no nulos
+
+print("\nINFORMACIÓN DEL DATAFRAME:")
+df.info()
+
+
+# ------------------------------------------------------------
+# 18. ESTADÍSTICAS DESCRIPTIVAS
+# ------------------------------------------------------------
+
+# describe() genera estadísticas automáticamente.
+
+print("\nESTADÍSTICAS:")
+print(df.describe())
+
+
+# ------------------------------------------------------------
+# 19. GROUPBY
+# ------------------------------------------------------------
+
+# groupby() es MUY importante en Pandas.
+#
+# Permite agrupar información.
+#
+# Por ejemplo:
+# ¿Cuánto vendimos por categoría?
+
+ventas_categoria = df.groupby("Categoria")["Total"].sum()
+
+print("\nVENTAS POR CATEGORÍA:")
+print(ventas_categoria)
+
+
+# ------------------------------------------------------------
+# 20. CONTAR ELEMENTOS
+# ------------------------------------------------------------
+
+# value_counts() cuenta cuántas veces aparece cada valor.
+
+cantidad_categoria = df["Categoria"].value_counts()
+
+print("\nCANTIDAD DE PRODUCTOS POR CATEGORÍA:")
+print(cantidad_categoria)
+
+
+# ------------------------------------------------------------
+# 21. MODIFICAR UNA COLUMNA
+# ------------------------------------------------------------
+
+# Podemos modificar los valores de una columna.
+
+df["Precio"] = df["Precio"] * 1.10
+
+# Ahora todos los precios aumentaron 10%.
+
+print("\nPRECIOS DESPUÉS DEL AUMENTO DEL 10%:")
+print(df)
+
+
+# ------------------------------------------------------------
+# 22. ELIMINAR UNA COLUMNA
+# ------------------------------------------------------------
+
+# drop() permite eliminar columnas.
+#
+# axis=1 significa que queremos eliminar una columna.
+#
+# En este ejemplo NO vamos a modificar el DataFrame original.
+# Creamos una copia.
+
+df_sin_categoria = df.drop("Categoria", axis=1)
+
+print("\nDATAFRAME SIN CATEGORÍA:")
+print(df_sin_categoria)
+
+
+# ------------------------------------------------------------
+# 23. BUSCAR UN PRODUCTO ESPECÍFICO
+# ------------------------------------------------------------
+
+# Queremos encontrar la información de la Laptop.
+
+laptop = df[df["Producto"] == "Laptop"]
+
+print("\nINFORMACIÓN DE LA LAPTOP:")
+print(laptop)
+
+
+# ------------------------------------------------------------
+# 24. GUARDAR EL DATAFRAME EN EXCEL
+# ------------------------------------------------------------
+
+# Pandas puede guardar nuestros datos en Excel.
+
+# df.to_excel("ventas.xlsx", index=False)
+
+# index=False evita que Pandas agregue una columna
+# adicional con el número de índice.
+
+
+# ------------------------------------------------------------
+# 25. GUARDAR EN CSV
+# ------------------------------------------------------------
+
+# También podemos guardar nuestros datos en CSV.
+
+# df.to_csv("ventas.csv", index=False)
+
+
+# ============================================================
+# FIN DEL EJEMPLO
+# ============================================================
